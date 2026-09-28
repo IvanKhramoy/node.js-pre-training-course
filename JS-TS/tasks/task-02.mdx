@@ -9,13 +9,13 @@ Create a zero-dependency utility module that implements **five** immutable, type
 
 ### File
 `JS-TS/solutions/array-helpers.ts`
-
+x
 ### Required API
 1. `mapArray<T, R>(source: readonly T[], mapper: (item: T, index: number) => R): R[]`
 2. `filterArray<T>(source: readonly T[], predicate: (item: T, index: number) => boolean): T[]`
 3. `reduceArray<T, R>(source: readonly T[], reducer: (acc: R, item: T, index: number) => R, initial: R): R`
 4. `partition<T>(source: readonly T[], predicate: (item: T) => boolean): [T[], T[]]` — returns a tuple **[pass, fail]**
-5. `groupBy<T, K extends PropertyKey>(source: readonly T[], keySelector: (item: T) => K): Record<K, T[]>` — groups items by a computed key.
+    5. `groupBy<T, K extends PropertyKey>(source: readonly T[], keySelector: (item: T) => K): Record<K, T[]>` — groups items by a computed key.
 
 ### Additional Constraints
 • All helpers must check `source` at runtime and throw a `TypeError` if it is
@@ -42,7 +42,11 @@ const grouped = groupBy([
   { id: 2, tag: 'work' },
   { id: 3, tag: 'home' }
 ], t => t.tag);
-// grouped => { home: [ {…}, {…} ], work: [ {…} ] }
+// grouped =>
+{
+ home: [ {…}, {…} ],
+ work: [ {…} ]
+}
 
 const acc = {} as Record<K, T[]>; // undefined at runtime for a key that never occurred
 ```
