@@ -1,5 +1,6 @@
 import { Todo, NewTodo } from './types';
 import {createTodo} from "./todo-factory";
+import {InMemoryRepository} from "./repository";
 
 const delay = () => {
   return new Promise((resolve) => {
@@ -8,38 +9,38 @@ const delay = () => {
 }
 
 export class TodoApi {
-  private todos: Todo[] = [];
+  constructor(private readonly repo = new InMemoryRepository<Todo>()) {}
+
+  // private todos: Todo[] = [];
 
   async getAll(): Promise<Todo[]> {
     await delay();
-    return [...this.todos];
+    return [...this.repo.findAll()];
   }
 
   async add(newTodo: NewTodo): Promise<Todo> {
     await delay();
     const todo = createTodo(newTodo);
-    this.todos.push(todo);
+    this.repo.add(todo);
     return todo;
   }
 
   async update(id: number, update: Partial<Omit<Todo, 'id' | 'createdAt'>>): Promise<Todo> {
     await delay();
-    const index = this.todos.findIndex((item) => item.id === id);
-    if (index === -1) {
+    try {
+      return this.repo.update(id, update);
+    } catch {
       throw new TodoNotFoundError(id);
     }
-    const updatedTodo = { ...this.todos[index], ...update };
-    this.todos[index] = updatedTodo;
-    return updatedTodo;
   }
 
   async remove(id: number): Promise<void> {
     await delay();
-    const index = this.todos.findIndex((item) => item.id === id);
-    if (index === -1) {
+    try {
+      this.repo.remove(id);
+    } catch {
       throw new TodoNotFoundError(id);
     }
-    this.todos.splice(index, 1);
   }
 }
 

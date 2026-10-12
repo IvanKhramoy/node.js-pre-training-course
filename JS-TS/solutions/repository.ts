@@ -1,24 +1,35 @@
 export class InMemoryRepository<T extends { id: number }> {
-  // private storage
+
   private items: T[] = [];
 
   add(entity: T): T {
-    throw new Error('add: not implemented');
+    this.items.push(entity);
+    return entity;
   }
 
   update(id: number, patch: Partial<T>): T {
-    throw new Error('update: not implemented');
+    const index = this.items.findIndex((item) => item.id === id)
+    if (index === -1) {
+      throw new Error ('remove: no entity with the given id exist')
+    }
+    const updated =  {...this.items[index], ...patch};
+    this.items[index] = updated;
+    return updated;
   }
 
   remove(id: number): void {
-    throw new Error('remove: not implemented');
+    const index = this.items.findIndex((item) => item.id === id)
+    if (index === -1) {
+      throw new Error ('remove: no entity with the given id exist')
+    }
+    this.items.splice(index, 1);
   }
 
   findById(id: number): T | undefined {
-    throw new Error('findById: not implemented');
+    return this.items.find((item) => item.id === id);
   }
 
   findAll(): T[] {
-    throw new Error('findAll: not implemented');
+    return [...this.items];
   }
 }
