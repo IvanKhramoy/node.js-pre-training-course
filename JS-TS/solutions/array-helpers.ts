@@ -61,7 +61,7 @@ export function groupBy<T, K extends PropertyKey>(source: readonly T[], keySelec
   if (source == null) {
     throw new TypeError('groupBy: source cannot be null or undefined')
   }
-  const result = {} as Record<K, T[]>;
+  const result = {} as Record<K, T[]>; // K may be string | number | symbol
 
   for (const item of source) {
     const key = keySelector(item);

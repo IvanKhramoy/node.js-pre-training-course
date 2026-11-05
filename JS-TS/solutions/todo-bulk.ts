@@ -1,12 +1,5 @@
 import {Todo, TodoStatus} from './types';
 
-// export function toggleAll(state: Todo[], completed: boolean): Todo[] {
-//   if (!state) {
-//     throw new Error('toggleAll: not implemented');
-//   }
-//   return state.map((todo) => {...todo, status: completed ? TodoStatus.COMPLETED : TodoStatus.PENDING,});
-// }
-
 export function toggleAll(state: Todo[], completed: boolean): Todo[] {
   const newStatus = completed ? TodoStatus.COMPLETED : TodoStatus.PENDING;
 

@@ -9,5 +9,4 @@ export function createTodo(input: NewTodo): Todo {
     createdAt: new Date,
     status: TodoStatus.PENDING,
   }
-  // throw new Error('createTodo: not implemented');
 }
