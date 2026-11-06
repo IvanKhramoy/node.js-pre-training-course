@@ -35,8 +35,6 @@ import { Todo } from '../../types';
  * - Handle form submission properly
  */
 export const AddToDo: React.FC = () => {
-  // TODO: Implement the AddToDo component
-  // 
   // Requirements:
   // 1. Create a controlled input field for todo title
   // 2. Add a button to submit the new todo
@@ -47,12 +45,44 @@ export const AddToDo: React.FC = () => {
   // Example implementation:
   // const [inputValue, setInputValue] = useState('');
   // const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [title, setTitle] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      return;
+    }
+    const newTodo: Todo = {
+      id: Date.now(),
+      title: title.trim(),
+      completed: false,
+    };
+
+    setTodos((prev) => [...prev, newTodo]);
+    setTitle('');
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  }
 
   return (
     <div>
-      {/* TODO: Replace this with your implementation */}
-      <h4>Add ToDo Component</h4>
-      <p>Implement useState and form handling here</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Add todo"
+          value={title}
+          onChange={onChange}
+        />
+        <button type="submit">Add todo</button>
+      </form>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>{todo.title}</li>
+        ))}
+      </ul>
     </div>
   );
 }; 
