@@ -35,16 +35,7 @@ import { Todo } from '../../types';
  * - Handle form submission properly
  */
 export const AddToDo: React.FC = () => {
-  // Requirements:
-  // 1. Create a controlled input field for todo title
-  // 2. Add a button to submit the new todo
-  // 3. Handle form submission (prevent default behavior)
-  // 4. Clear the input after adding a todo
-  // 5. Don't add empty todos
-  // 
-  // Example implementation:
-  // const [inputValue, setInputValue] = useState('');
-  // const [todos, setTodos] = useState<Todo[]>([]);
+
   const [todos, setTodos] = useState<Todo[]>([]);
   const [title, setTitle] = useState('');
 

@@ -3,34 +3,34 @@ import { Todo } from '../../types';
 
 /**
  * Task 4: CompleteToDoList Component
- * 
+ *
  * Theory: State Updates and Immutability
- * 
+ *
  * React state updates must be immutable. This means you cannot directly modify the existing state
  * object or array. Instead, you must create a new object/array with the updated values.
- * 
+ *
  * Why Immutability Matters:
  * 1. React uses reference equality to determine if state has changed
  * 2. Direct mutations don't trigger re-renders
  * 3. It enables time-travel debugging and undo/redo features
  * 4. It makes state changes predictable and traceable
- * 
+ *
  * Common State Update Patterns:
- * 
+ *
  * For Arrays:
  * - Adding: [...array, newItem]
  * - Removing: array.filter(item => item.id !== id)
  * - Updating: array.map(item => item.id === id ? {...item, updated: true} : item)
- * 
+ *
  * For Objects:
  * - Updating: {...object, newProperty: value}
  * - Nested updates: {...object, nested: {...object.nested, updated: true}}
- * 
+ *
  * Event Handling with Parameters:
  * - Use arrow functions to pass parameters to event handlers
  * - Example: onClick={() => handleClick(id)}
  * - Or use bind: onClick={handleClick.bind(null, id)}
- * 
+ *
  * Key Concepts:
  * - Always create new objects/arrays when updating state
  * - Use spread operator (...) for shallow copies
@@ -57,11 +57,59 @@ export const CompleteToDoList: React.FC = () => {
   //   ));
   // };
 
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [title, setTitle] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      return;
+    }
+    const newTodo: Todo = {
+      id: Date.now(),
+      title: title.trim(),
+      completed: false,
+    };
+
+    setTodos((prev) => [...prev, newTodo]);
+    setTitle('');
+  };
+
+  const markCompleted = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, completed:
+            true } : todo
+      )
+    );
+  }
+
   return (
     <div>
-      {/* TODO: Replace this with your implementation */}
-      <h4>Complete ToDo List Component</h4>
-      <p>Implement immutable state updates here</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Add todo"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <button type="submit">Add todo</button>
+      </form>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            >
+                  {todo.title} - {todo.completed ? 'Completed' : 'Active'}
+            </span>
+            {!todo.completed && (
+              <button onClick={() => markCompleted(todo.id)}>
+                Complete
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }; 
