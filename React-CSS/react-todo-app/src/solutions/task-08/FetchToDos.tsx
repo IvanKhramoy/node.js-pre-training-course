@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Todo } from '../../types';
+import {response} from "express";
 
 /**
  * Task 8: FetchToDos Component
@@ -7,7 +8,7 @@ import { Todo } from '../../types';
  * Theory: React Hooks - useEffect and Side Effects
  * 
  * useEffect is a React Hook that lets you perform side effects in function components.
- * Side effects are operations that happen outside of the normal render cycle, such as:
+ * Side effects are operations that happen outside  the normal render cycle, such as:
  * - Data fetching
  * - Subscriptions
  * - Manual DOM manipulations
@@ -89,11 +90,40 @@ export const FetchToDos: React.FC = () => {
   //     });
   // }, []);
 
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(response => response.json())
+      .then(data => {
+        setTodos(data.slice(0, 10));
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error.message);
+        setLoading(false);
+      })
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
   return (
     <div>
-      {/* TODO: Replace this with your implementation */}
-      <h4>Fetch ToDos Component</h4>
-      <p>Implement data fetching with useEffect here</p>
+      <h3>Fetched Todos</h3>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.title} - {todo.completed ?
+            'completed' : 'active'}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }; 
