@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {act} from 'react';
 import { ActiveCountProps } from '../../types';
 
 /**
@@ -45,7 +45,7 @@ import { ActiveCountProps } from '../../types';
  * - Use TypeScript for better prop validation
  * - Consider prop drilling vs context for deep data passing
  */
-export const ActiveCount: React.FC<ActiveCountProps> = ({ todos }) => {
+export const ActiveCount: React.FC<ActiveCountProps> = (props) => {
   // TODO: Implement the ActiveCount component
   // 
   // Requirements:
@@ -60,11 +60,10 @@ export const ActiveCount: React.FC<ActiveCountProps> = ({ todos }) => {
   // Example display:
   // "0 active todos" or "1 active todo" or "5 active todos"
 
+  const { todos } = props;
+  const activeTasks = todos.filter((task) => !task.completed).length;
+
   return (
-    <div>
-      {/* TODO: Replace this with your implementation */}
-      <h4>Active Count Component</h4>
-      <p>Calculate and display active todos count here</p>
-    </div>
+    <p>{activeTasks} active {activeTasks === 1 ? <span>todo</span> : <span>todos</span>}</p>
   );
 }; 
