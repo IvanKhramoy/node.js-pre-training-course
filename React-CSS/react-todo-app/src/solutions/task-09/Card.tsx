@@ -79,28 +79,10 @@ export const Card: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // 3. Apply consistent styling to all cards
   // 4. Make the component flexible for any content
   // 5. Use proper TypeScript typing for children
-  // 
-  // Example implementation:
-  // return (
-  //   <div className="card">
-  //     {children}
-  //   </div>
-  // );
-  // 
-  // CSS to create:
-  // .card {
-  //   border: 1px solid #ccc;
-  //   border-radius: 8px;
-  //   padding: 16px;
-  //   margin: 8px;
-  //   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  // }
 
   return (
-    <div>
-      {/* TODO: Replace this with your implementation */}
-      <h4>Card Component</h4>
-      <p>Implement component composition with children prop here</p>
+    <div className='card'>
+      {children}
     </div>
   );
 }; 
